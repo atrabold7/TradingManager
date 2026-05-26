@@ -18,7 +18,8 @@ FetchContent_MakeAvailable(json)
 add_executable(TradingManager 
     TradingManager.cpp 
     Trade.cpp
-)
+ "Portfolio.cpp" "Portfolio.h" "TradeInputHandler.cpp" "TradeInputHandler.h"
+        Trade.h)
 
 # Das verbindet dein Programm mit der JSON-Bibliothek
 target_link_libraries(TradingManager PRIVATE nlohmann_json::nlohmann_json)
