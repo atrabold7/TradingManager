@@ -40,5 +40,5 @@ public:
     std::optional<std::chrono::year_month_day> getSellDate() const;
     int getHoldingPeriod() const;
     bool getTradeClosed() const;
-
+    void printTrade() const;
     };
