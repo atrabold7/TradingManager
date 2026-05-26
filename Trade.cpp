@@ -1,4 +1,5 @@
 #include "Trade.h"
+#include <iostream>
 
 void Trade::setSellFee(float SellFee) {
     m_SellFee = SellFee;
@@ -47,4 +48,16 @@ int Trade::getHoldingPeriod() const {
     }
 bool Trade::getTradeClosed() const {
     return m_TradeClosed;
+    }
+void Trade::printTrade() const
+    {
+    std::cout << std::left << std::setw(20) << m_StockName
+        << std::setw(15) << m_StockAmount
+        << std::setw(15) << m_SingleBuyPrice
+        //<< " | Menge: " << std::setw(15) << m_BuyDate
+        << std::setw(15) << m_SingleSellPrice
+        //<< " | Menge: " << std::setw(15) << m_SellDate
+        << std::setw(15) << m_HoldingPeriod
+        << std::setw(15) << m_TradeClosed
+        << std::endl;
     }
