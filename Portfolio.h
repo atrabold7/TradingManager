@@ -14,4 +14,5 @@ public:
     void printAll();
     void addTrade(TradeInputData tradeInputData);
     void generateTestTrades();
+    void saveData();
     };

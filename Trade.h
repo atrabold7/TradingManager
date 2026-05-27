@@ -1,8 +1,10 @@
 #pragma once
-
 #include <string>
 #include <chrono>
 #include <optional>
+#include <nlohmann/json.hpp>
+
+using json = nlohmann::json;
 
 class Trade {
 private:
@@ -18,6 +20,8 @@ private:
     int m_HoldingPeriod = 0;
     bool m_TradeClosed = false;
 
+    friend void to_json(json& j, const Trade& t);
+    friend void from_json(const json& j, Trade& t);
 public:
     Trade (const std::string &StockName, float StockAmount, float SingleBuyPrice, float Tax, float BuyFee, std::chrono::year_month_day BuyDate) :
         m_StockName(StockName), m_StockAmount(StockAmount), m_SingleBuyPrice(SingleBuyPrice), m_Tax(Tax), m_BuyFee(BuyFee),

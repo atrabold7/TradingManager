@@ -11,7 +11,9 @@ void TradeInputHandler::run() {
         std::cout << "[1] Create trades" << std::endl;
         std::cout << "[2] Show trades" << std::endl;
         std::cout << "[3] Show calculation" << std::endl;
-        std::cout << "[4] End" << std::endl;
+        std::cout << "[4] Load data" << std::endl;
+        std::cout << "[5] Save data" << std::endl;
+        std::cout << "[6] End" << std::endl;
         
         if (!(std::cin >> input)) {
             std::cin.clear();
@@ -31,6 +33,12 @@ void TradeInputHandler::run() {
 
                 break;
             case 4:
+            
+                break;
+            case 5:
+                m_portfolio.saveData();
+                break;
+            case 6:
                 isRunning = false;
                 break;
             default:
