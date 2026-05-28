@@ -27,6 +27,8 @@ public:
         m_StockName(StockName), m_StockAmount(StockAmount), m_SingleBuyPrice(SingleBuyPrice), m_Tax(Tax), m_BuyFee(BuyFee),
         m_BuyDate(BuyDate) { }
 
+    Trade() = default;
+    
     void setSellFee(float SellFee);
     void setSingleSellPrice(float SingleSellPrice);
     void setSellDate(std::chrono::year_month_day SellDate);

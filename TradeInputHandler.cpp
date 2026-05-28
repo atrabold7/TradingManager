@@ -5,7 +5,8 @@
 void TradeInputHandler::run() {
     int input;
     bool isRunning = true;
-    m_portfolio.generateTestTrades();
+    float totalWin = 0.0f;
+    //m_portfolio.generateTestTrades();
 
     while (isRunning) {
         std::cout << "[1] Create trades" << std::endl;
@@ -30,10 +31,11 @@ void TradeInputHandler::run() {
                 m_portfolio.printAll();
                 break;
             case 3:
-
+                totalWin = m_portfolio.calculateTotalWin();
+                displayTotalWin(totalWin);
                 break;
             case 4:
-            
+                m_portfolio.readTrades();
                 break;
             case 5:
                 m_portfolio.saveData();
@@ -60,6 +62,10 @@ void TradeInputHandler::getTradeInputData()
     tradeInputData.m_TradeClosed = false;
     
     m_portfolio.addTrade(tradeInputData);
+}
+void TradeInputHandler::displayTotalWin(float totalWin)
+{
+    std::cout << "Total Win: " << totalWin << std::endl;
 }
 float TradeInputHandler::readFloat(const std::string &command)
 {
