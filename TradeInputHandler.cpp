@@ -59,6 +59,8 @@ void TradeInputHandler::getTradeInputData()
     tradeInputData.m_SingleBuyPrice = readFloat("Set single buy price: ");
     tradeInputData.m_Tax = readFloat("Set tax: ");
     tradeInputData.m_BuyFee = readFloat("Set fee: ");
+    tradeInputData.m_BuyDate = readDate("Set buy date YYYY-MM-DD: ");
+    
     tradeInputData.m_TradeClosed = false;
     
     m_portfolio.addTrade(tradeInputData);
@@ -106,5 +108,25 @@ std::string TradeInputHandler::readString(const std::string &command)
             std::cout << "Set a value" << std::endl;
         }
         else return inputData;
+    }
+}
+std::chrono::year_month_day TradeInputHandler::readDate(const std::string &command)
+{
+    std::string inputString;
+    std::chrono::year_month_day inputYear;
+    
+    while (true)
+    {
+        std::cout << command;
+        
+        std::getline(std::cin >> std::ws, inputString);
+        std::istringstream ss{inputString};
+
+        if (ss >> std::chrono::parse("%F", inputYear) && inputYear.ok()) {
+            return inputYear;
+        } else {
+            std::cout << "Ungültiges Datum oder falsches Format. Bitte YYYY-MM-DD eingeben: ";
+            std::cin.clear();
+        }
     }
 }

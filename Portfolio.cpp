@@ -72,11 +72,13 @@ float Portfolio::calculateTotalWin() {
     return totalWin;
     }
 void Portfolio::printAll() {
+    int StockId = 0;
     
-    std::cout << std::left << std::setw(20) << "Stock Name"
-        << std::setw(15) << "Qty"
+    std::cout << std::left << std::setw(5) << "Id"
+        << std::left << std::setw(15) << "Stock Name"
+        << std::setw(10) << "Qty"
         << std::setw(15) << "Buy price"
-        //<< " | Menge: " << std::setw(15) << m_BuyDate
+        << std::setw(15) << "Buy date"
         << std::setw(15) << "Sell price"
         //<< " | Menge: " << std::setw(15) << m_SellDate
         << std::setw(15) << "Hold time"
@@ -85,7 +87,7 @@ void Portfolio::printAll() {
 
     for (const Trade& trade : m_trades) {
         std::cout << "==============================================================================================" << std::endl;
-        trade.printTrade();
+        trade.printTrade(++StockId);
         }
     }
 void Portfolio::addTrade(TradeInputData tradeInputData)

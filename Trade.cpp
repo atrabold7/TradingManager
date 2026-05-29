@@ -49,15 +49,16 @@ int Trade::getHoldingPeriod() const {
 bool Trade::getTradeClosed() const {
     return m_TradeClosed;
     }
-void Trade::printTrade() const
+void Trade::printTrade(int StockId) const
     {
-    std::cout << std::left << std::setw(20) << m_StockName
-        << std::setw(15) << m_StockAmount
+    std::cout << std::left << std::setw(5) << "[" << StockId << "]"
+        << std::left << std::setw(15) << m_StockName
+        << std::setw(10) << m_StockAmount
         << std::setw(15) << m_SingleBuyPrice
-        //<< " | Menge: " << std::setw(15) << m_BuyDate
+        << std::setw(15) << m_BuyDate
         << std::setw(15) << m_SingleSellPrice
         //<< " | Menge: " << std::setw(15) << m_SellDate
         << std::setw(15) << m_HoldingPeriod
-        << std::setw(15) << m_TradeClosed
+        << std::setw(15) << (m_TradeClosed ? "Closed" : "Open")
         << std::endl;
     }
