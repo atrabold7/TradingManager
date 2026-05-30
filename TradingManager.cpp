@@ -2,13 +2,16 @@
 //
 
 #include "Portfolio.h"
+#include "FileTradeRepository.h"
 #include "TradeInputHandler.h"
 
 int main()
 {
     int input;
     Portfolio portfolio;
-    TradeInputHandler tradeInputHandler(portfolio);
+    auto repo = std::make_unique<FileTradeRepository>();
+    
+    TradeInputHandler tradeInputHandler(portfolio, *repo);
     
     tradeInputHandler.run();
 

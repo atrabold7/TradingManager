@@ -3,6 +3,8 @@
 #include "Portfolio.h"
 #include <iostream>
 
+#include "ITradeRepository.h"
+
 void TradeInputHandler::run() {
     int input;
     bool isRunning = true;
@@ -35,10 +37,10 @@ void TradeInputHandler::run() {
                 displayTotalWin(totalWin);
                 break;
             case 4:
-                m_portfolio.readTrades();
+                m_repository.readTrades(m_portfolio.getTradesMutable());
                 break;
             case 5:
-                m_portfolio.saveData();
+                m_repository.saveData(m_portfolio.getTrades());
                 break;
             case 6:
                 isRunning = false;
@@ -64,6 +66,8 @@ void TradeInputHandler::getTradeInputData()
     tradeInputData.m_TradeClosed = false;
     
     m_portfolio.addTrade(tradeInputData);
+    
+    m_repository.saveData(m_portfolio.getTrades());
 }
 void TradeInputHandler::displayTotalWin(float totalWin)
 {

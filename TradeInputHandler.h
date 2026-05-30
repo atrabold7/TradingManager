@@ -1,7 +1,9 @@
 #pragma once
 #include <chrono>
 
+class FileTradeRepository;
 class Portfolio;
+class ITradeRepository;
 
 struct TradeInputData
 {
@@ -17,10 +19,11 @@ struct TradeInputData
 class TradeInputHandler {
 private:
     Portfolio &m_portfolio;
-
+    ITradeRepository &m_repository; // Hier das Repository injizieren
+    
 public:
-    TradeInputHandler(Portfolio &portfolio) :
-        m_portfolio(portfolio) {}
+    TradeInputHandler(Portfolio &portfolio, ITradeRepository &repository) :
+        m_portfolio(portfolio), m_repository(repository) {}
     void run();
     void getTradeInputData();
     float readFloat(const std::string &command);

@@ -11,8 +11,7 @@ private:
     std::vector<Trade> m_trades;
 public:
     void addTrade(TradeInputData tradeInputData);
-    void saveData();
-    void readTrades();
     float calculateTotalWin();
     const std::vector<Trade>& getTrades() const;
+    std::vector<Trade>& getTradesMutable();
     };
