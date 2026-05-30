@@ -10,9 +10,9 @@ class Portfolio {
 private:
     std::vector<Trade> m_trades;
 public:
-    void printAll();
     void addTrade(TradeInputData tradeInputData);
     void saveData();
     void readTrades();
     float calculateTotalWin();
+    const std::vector<Trade>& getTrades() const;
     };

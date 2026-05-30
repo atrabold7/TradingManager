@@ -1,4 +1,5 @@
 #include "TradeInputHandler.h"
+#include "TradePrinter.h"
 #include "Portfolio.h"
 #include <iostream>
 
@@ -6,7 +7,6 @@ void TradeInputHandler::run() {
     int input;
     bool isRunning = true;
     float totalWin = 0.0f;
-    //m_portfolio.generateTestTrades();
 
     while (isRunning) {
         std::cout << "[1] Create trades" << std::endl;
@@ -28,7 +28,7 @@ void TradeInputHandler::run() {
                 getTradeInputData();
                 break;
             case 2:
-                m_portfolio.printAll();
+                TradePrinter::printAll(m_portfolio);
                 break;
             case 3:
                 totalWin = m_portfolio.calculateTotalWin();
