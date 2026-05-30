@@ -21,7 +21,11 @@ add_executable(TradingManager
  "Portfolio.cpp" "Portfolio.h" "TradeInputHandler.cpp" "TradeInputHandler.h"
         Trade.h
         TradePrinter.cpp
-        TradePrinter.h)
+        TradePrinter.h
+        ITradeRepository.h
+        FileTradeRepository.h
+        FileTradeRepository.h
+        FileTradeRepository.cpp)
 
 # Das verbindet dein Programm mit der JSON-Bibliothek
 target_link_libraries(TradingManager PRIVATE nlohmann_json::nlohmann_json)
