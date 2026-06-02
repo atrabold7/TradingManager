@@ -9,12 +9,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install Build Tools
-        run: sudo apt-get update && sudo apt-get install -y cmake build-essential
+      - name: Install Compiler
+        # Wir installieren GCC 13, das volle C++20 Support für chrono hat
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y g++-13 cmake
+          echo "CC=gcc-13" >> $GITHUB_ENV
+          echo "CXX=g++-13" >> $GITHUB_ENV
 
       - name: Configure CMake
-        # Wir fügen hier -DCMAKE_CXX_STANDARD=20 hinzu
-        run: cmake -B build -DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_STANDARD_REQUIRED=ON
+        run: cmake -B build -DCMAKE_CXX_COMPILER=g++-13 -DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_STANDARD_REQUIRED=ON
 
       - name: Build
         run: cmake --build build
