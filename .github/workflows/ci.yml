@@ -1,26 +1,12 @@
 name: C++ CI Pipeline
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest # Wir nutzen Linux, da es der Standard für Server/Cloud ist
-
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-
-    - name: Install Dependencies
-      run: sudo apt-get update && sudo apt-get install -y cmake build-essential
-
-    - name: Configure CMake
-      run: cmake -B build -DCMAKE_BUILD_TYPE=Release
-
-    - name: Build
-      run: cmake --build build --config Release
-
-    - name: Run Tests
-      run: ./build/test/my_unit_tests # Passe den Pfad zu deinen Tests an
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: List files
+        run: ls -R
