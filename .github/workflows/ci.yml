@@ -8,5 +8,12 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: List files
-        run: ls -R
+
+      - name: Install Build Tools
+        run: sudo apt-get update && sudo apt-get install -y cmake build-essential
+
+      - name: Configure CMake
+        run: cmake -B build -DCMAKE_CXX_STANDARD=20
+
+      - name: Build
+        run: cmake --build build
