@@ -1,5 +1,0 @@
-C:/work/VisualStudio/TradingManager/build/CMakeFiles/TradingManager.dir
-C:/work/VisualStudio/TradingManager/build/CMakeFiles/edit_cache.dir
-C:/work/VisualStudio/TradingManager/build/CMakeFiles/rebuild_cache.dir
-C:/work/VisualStudio/TradingManager/build/_deps/json-build/CMakeFiles/edit_cache.dir
-C:/work/VisualStudio/TradingManager/build/_deps/json-build/CMakeFiles/rebuild_cache.dir
