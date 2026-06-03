@@ -367,3 +367,4 @@ FodyWeavers.xsd
 *.iws
 *.iml
 *.ipr
+cmake-build-*/
