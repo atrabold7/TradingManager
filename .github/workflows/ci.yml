@@ -24,4 +24,4 @@ jobs:
         run: cmake --build build
 
       - name: Führe Catch2 Tests aus
-        run: ./build/test_trade
+        run: ./build/unit_tests
