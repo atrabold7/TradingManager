@@ -5,8 +5,10 @@ include_directories(../src)
 # 2. Das Test-Programm definieren
 #    Hier listen wir die Test-Datei und die zu testende Klasse auf
 add_executable(unit_tests
-        test_trade.cpp
         ../src/Trade.cpp
+        ../src/Portfolio.cpp
+        test_trade.cpp
+        test_portfolio.cpp
 )
 
 # 3. Verknüpfung mit den Libraries
