@@ -20,6 +20,13 @@ add_executable(TradingManager
         src/TradeInputHandler.cpp
         src/TradePrinter.cpp
         src/TradeSerializer.cpp
+        src/Portfolio.h
+        src/TradePrinter.h
+        src/FileTradeRepository.h
+        src/TradeSerializer.h
+        src/ITradeRepository.h
+        src/Trade.h
+        src/TradeInputHandler.h
 )
 target_link_libraries(TradingManager PRIVATE nlohmann_json::nlohmann_json)
 
