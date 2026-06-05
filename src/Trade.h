@@ -31,6 +31,8 @@ public:
     Trade (const std::string &StockName, float StockAmount, float SingleBuyPrice, float Tax, float BuyFee, std::chrono::year_month_day BuyDate) :
         m_StockName(StockName), m_StockAmount(StockAmount), m_SingleBuyPrice(SingleBuyPrice), m_Tax(Tax), m_BuyFee(BuyFee),
         m_BuyDate(BuyDate) { }
+    
+    bool operator==(const Trade& trade1) const = default;
 
     Trade() = default;
     
