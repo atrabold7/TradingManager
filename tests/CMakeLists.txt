@@ -7,8 +7,10 @@ include_directories(../src)
 add_executable(unit_tests
         ../src/Trade.cpp
         ../src/Portfolio.cpp
+        ../src/TradeSerializer.cpp
         test_trade.cpp
         test_portfolio.cpp
+        test_tradeserializer.cpp
 )
 
 # 3. Verknüpfung mit den Libraries
