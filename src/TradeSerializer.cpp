@@ -49,15 +49,14 @@ void from_json(const json& j, Trade& t) {
 
 namespace TradeSerializer
 {
-    void readTrades(std::ifstream& file, std::vector<Trade>& trades)
+    void readTrades(std::istream& file, std::vector<Trade>& trades)
     {
         json j;
         file >> j;
         trades.clear();
         trades = j.get<std::vector<Trade>>();
-        file.close();
     }
-    void saveData(std::ofstream& file, const std::vector<Trade>& trades)
+    void saveData(std::ostream& file, const std::vector<Trade>& trades)
     {
         json j = trades;
         file << j.dump(4);
