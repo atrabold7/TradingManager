@@ -4,6 +4,6 @@
 class FileTradeRepository : public ITradeRepository
 {
 public:
-    virtual void saveData(const std::vector<Trade>& trades) override;
-    virtual void readTrades(std::vector<Trade>& trades) override;
+    virtual bool saveData(const std::vector<Trade>& trades) override;
+    virtual bool readTrades(std::vector<Trade>& trades) override;
 };
