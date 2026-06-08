@@ -37,10 +37,10 @@ void TradeInputHandler::run() {
                 displayTotalWin(totalWin);
                 break;
             case 4:
-                m_repository.readTrades(m_portfolio.getTradesMutable());
+                m_repository.readTrades(m_portfolio.getTradesMutable(), "portfolio.json");
                 break;
             case 5:
-                m_repository.saveData(m_portfolio.getTrades());
+                m_repository.saveData(m_portfolio.getTrades(), "portfolio.json");
                 break;
             case 6:
                 isRunning = false;
@@ -67,7 +67,7 @@ void TradeInputHandler::getTradeInputData()
     
     m_portfolio.addTrade(tradeInputData);
     
-    m_repository.saveData(m_portfolio.getTrades());
+    m_repository.saveData(m_portfolio.getTrades(), "portfolio.json");
 }
 void TradeInputHandler::displayTotalWin(float totalWin)
 {

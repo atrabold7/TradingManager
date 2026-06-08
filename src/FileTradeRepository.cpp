@@ -3,9 +3,9 @@
 #include "Trade.h"
 #include <fstream>
 
-bool FileTradeRepository::readTrades(std::vector<Trade>& trades)
+bool FileTradeRepository::readTrades(std::vector<Trade>& trades, const char* filename)
 {
-    std::ifstream file("portfolio_data.json");
+    std::ifstream file(filename);
     if (file.is_open()) {
         TradeSerializer::readTrades(file, trades);
         file.close();
@@ -13,9 +13,9 @@ bool FileTradeRepository::readTrades(std::vector<Trade>& trades)
     }
     return false;
 }
-bool FileTradeRepository::saveData(const std::vector<Trade>& trades)
+bool FileTradeRepository::saveData(const std::vector<Trade>& trades, const char* filename)
 {
-    std::ofstream file("portfolio_data.json");
+    std::ofstream file(filename);
     if (file.is_open()) {
         TradeSerializer::saveData(file, trades);
         return true;
