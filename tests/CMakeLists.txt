@@ -8,9 +8,11 @@ add_executable(unit_tests
         ../src/Trade.cpp
         ../src/Portfolio.cpp
         ../src/TradeSerializer.cpp
+        ../src/FileTradeRepository.cpp
         test_trade.cpp
         test_portfolio.cpp
         test_tradeserializer.cpp
+        test_filetraderepository.cpp
 )
 
 # 3. Verknüpfung mit den Libraries
