@@ -16,7 +16,7 @@ void Trade::setHoldingPeriod(int HoldingPeriod) {
 void Trade::setTradeClosed(bool TradeClosed) {
     m_TradeClosed = TradeClosed;
     }
-std::string Trade::getStockName() const {
+const std::string& Trade::getStockName() const {
     return m_StockName;
     }
 float Trade::getSingleBuyPrice() const {

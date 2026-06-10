@@ -7,7 +7,6 @@
 
 int main()
 {
-    int input;
     Portfolio portfolio;
     auto repo = std::make_unique<FileTradeRepository>();
     

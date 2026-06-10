@@ -42,7 +42,7 @@ public:
     void setHoldingPeriod(int HoldingPeriod);
     void setTradeClosed(bool TradeClosed);
 
-    std::string getStockName() const;
+    const std::string& getStockName() const;
     float getStockAmount() const;
     float getSingleBuyPrice() const;
     float getTax() const;
