@@ -1,27 +1,13 @@
 name: C++ CI Pipeline
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
-      - name: Install GCC 14
-        run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-          sudo apt-get update
-          sudo apt-get install -y g++-14 cmake
-          echo "CC=gcc-14" >> $GITHUB_ENV
-          echo "CXX=g++-14" >> $GITHUB_ENV
-
-      - name: Configure CMake
-        run: cmake -B build -DCMAKE_CXX_COMPILER=g++-14 -DCMAKE_CXX_STANDARD=20 -DCMAKE_CXX_STANDARD_REQUIRED=ON
-
-      - name: Build
-        run: cmake --build build
-
-      - name: Führe Catch2 Tests aus
-        run: ./build/tests/unit_tests
+      
+      - name: Build and Test in Docker
+        run: docker build -t trading-manager:latest .
