@@ -16,5 +16,5 @@ RUN ./build/tests/unit_tests
 FROM debian:bookworm-slim
 WORKDIR /app
 # copy image from builder-stage
-COPY --from=builder /app/TradingManager .
+COPY --from=builder /app/build/TradingManager .
 CMD ["./TradingManager"]
