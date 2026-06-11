@@ -37,3 +37,14 @@ std::vector<Trade>& Portfolio::getTradesMutable()
 {
     return m_trades;
 }
+void Portfolio::changeTrade(Trade &trade, TradeData tradeData)
+{
+    trade.setSellFee(tradeData.sellFee);
+    trade.setSingleSellPrice(tradeData.singleSellPrice);
+    
+    if (tradeData.sellDate.has_value())
+        trade.setSellDate(tradeData.sellDate.value());
+        
+    trade.setHoldingPeriod(tradeData.holdingPeriod);
+    trade.setTradeClosed(true);
+}

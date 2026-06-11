@@ -7,9 +7,13 @@
 
 void TradeInputHandler::run() {
     int input;
+    int inputTradeIndex;
+    int inputTradeField;
+    int inputValue;
     bool isRunning = true;
     float totalWin = 0.0f;
-
+    TradeData tradeData;
+    
     while (isRunning) {
         std::cout << "[1] Create trades" << std::endl;
         std::cout << "[2] Show trades" << std::endl;
@@ -31,6 +35,57 @@ void TradeInputHandler::run() {
                 break;
             case 2:
                 TradePrinter::printAll(m_portfolio);
+                std::cout << std::endl << "Press valid tade number to change or enter to leave: ";
+                if (!(std::cin >> inputTradeIndex)) {
+                    std::cin.clear();
+                    std::cin.ignore(1000, '\n');
+                    std::cout << "Invalid input! Please enter a number." << std::endl;
+                    continue;
+                }
+            
+                tradeData.sellFee = m_portfolio.getTrades()[inputTradeIndex].getSellFee();
+                tradeData.singleSellPrice = m_portfolio.getTrades()[inputTradeIndex].getSingleSellPrice();
+                tradeData.sellDate = m_portfolio.getTrades()[inputTradeIndex].getSellDate();
+                tradeData.holdingPeriod = m_portfolio.getTrades()[inputTradeIndex].getHoldingPeriod();
+            
+                std::cout << std::endl << "[1] Sell Fee";
+                std::cout << std::endl << "[2] Single Sell Price";
+                std::cout << std::endl << "[3] Sell Date";
+                std::cout << std::endl << "[4] Holding Period";
+                std::cout << std::endl << "Press valid field number to change or enter to leave: ";
+                if (!(std::cin >> inputTradeField)) {
+                    std::cin.clear();
+                    std::cin.ignore(1000, '\n');
+                    std::cout << "Invalid input! Please enter a number." << std::endl;
+                    continue;
+                }
+            
+                std::cout << std::endl << "Enter value: ";
+                if (!(std::cin >> inputValue)) {
+                    std::cin.clear();
+                    std::cin.ignore(1000, '\n');
+                    std::cout << "Invalid input! Please enter a number." << std::endl;
+                    continue;
+                }
+            
+                switch (inputTradeField)
+                {
+                case 1:
+                    tradeData.sellFee = inputValue;
+                    break;
+                case 2:
+                    tradeData.singleSellPrice = inputValue;
+                    break;
+                case 3:
+                    //tradeData.sellDate = inputValue;
+                    break;
+                case 4:
+                    tradeData.holdingPeriod = inputValue;
+                    break;
+                }
+            
+                m_portfolio.changeTrade(m_portfolio.getTradesMutable()[inputTradeIndex - 1], tradeData);
+            
                 break;
             case 3:
                 totalWin = m_portfolio.calculateTotalWin();
