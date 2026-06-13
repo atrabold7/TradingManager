@@ -19,9 +19,9 @@ TEST_CASE("FileTraderRepository - check functions", "[FileTraderRepository]") {
     std::vector<Trade> readTrades;
     std::vector<Trade> writeTrades;
     
-    writeTrades.emplace_back(name, amount, buyPrice, tax, buyFee, buyDate);
-    writeTrades.emplace_back(name, amount, buyPrice, tax, buyFee, buyDate);
-    writeTrades.emplace_back(name, amount, buyPrice, tax, buyFee, buyDate);
+    writeTrades.emplace_back(name, amount, buyPrice, buyFee, buyDate);
+    writeTrades.emplace_back(name, amount, buyPrice, buyFee, buyDate);
+    writeTrades.emplace_back(name, amount, buyPrice, buyFee, buyDate);
     
     auto repo = std::make_unique<FileTradeRepository>();
     

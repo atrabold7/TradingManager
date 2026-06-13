@@ -43,7 +43,7 @@ TEST_CASE("TradeSerializer - json Test", "[TradeSerializer]") {
     // REQUIRE crash if both entries are not equal
     SECTION("Data must be the same")
     {
-        tradesToWrite.emplace_back(StockName[0], StockAmount, SingleBuyPrice, Tax, BuyFee, BuyDate);
+        tradesToWrite.emplace_back(StockName[0], StockAmount, SingleBuyPrice, BuyFee, BuyDate);
         tradesToWrite[0].setSellDate(SellDate.value());
         tradesToWrite[0].setSingleSellPrice(SingleSellPrice);
         tradesToWrite[0].setSellFee(SellFee);
@@ -65,7 +65,7 @@ TEST_CASE("TradeSerializer - json Test", "[TradeSerializer]") {
     {
         for (int ii = 0; ii < 3; ++ii)
         {
-            tradesToWrite.emplace_back(StockName[ii], StockAmount, SingleBuyPrice, Tax, BuyFee, BuyDate);
+            tradesToWrite.emplace_back(StockName[ii], StockAmount, SingleBuyPrice, BuyFee, BuyDate);
             tradesToWrite[ii].setSellDate(SellDate.value());
             tradesToWrite[ii].setSingleSellPrice(SingleSellPrice);
             tradesToWrite[ii].setSellFee(SellFee);

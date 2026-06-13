@@ -12,7 +12,6 @@ TEST_CASE("Portfolio - Gewinnberechnung", "[Portfolio]") {
     tradeInputData.m_StockName = "Alphabet";
     tradeInputData.m_StockAmount = 10;
     tradeInputData.m_SingleBuyPrice = 300;
-    tradeInputData.m_Tax = 40;
     tradeInputData.m_BuyFee = 10;
     tradeInputData.m_BuyDate = std::chrono::year(2026) / 6 / 2;
     
@@ -24,24 +23,26 @@ TEST_CASE("Portfolio - Gewinnberechnung", "[Portfolio]") {
     // REQUIRE bricht den Test sofort ab, wenn die Bedingung nicht stimmt
     SECTION("Open trade, win bust be 0")
     {
-        REQUIRE(portfolio.calculateTotalWin() == 0);
+        REQUIRE(portfolio.calculateTotalNetWin() == 0);
     }
     SECTION("Closed trade, there must be a win > 0")
     {
         auto& trade = portfolio.getTradesMutable();
         trade[0].setSellFee(40);
         trade[0].setSingleSellPrice(320);
+        trade[0].setTax(40);
         trade[0].setSellDate(std::chrono::year(2026) / 6 / 5);
         trade[0].setTradeClosed(true);
-        REQUIRE(portfolio.calculateTotalWin() == 110);
+        REQUIRE(portfolio.calculateTotalNetWin() == 110);
     }
     SECTION("Closed trade, there must be a win < 0")
     {
         auto& trade = portfolio.getTradesMutable();
         trade[0].setSellFee(40);
         trade[0].setSingleSellPrice(220);
+        trade[0].setTax(40);
         trade[0].setSellDate(std::chrono::year(2026) / 6 / 5);
         trade[0].setTradeClosed(true);
-        REQUIRE(portfolio.calculateTotalWin() == -890);
+        REQUIRE(portfolio.calculateTotalNetWin() == -890);
     }
 }

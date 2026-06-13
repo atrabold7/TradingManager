@@ -9,21 +9,19 @@ TEST_CASE("Trade - Konstruktor und Getter testen", "[Trade]") {
     std::string name = "Apple";
     float amount = 10.0f;
     float buyPrice = 150.50f;
-    float tax = 25.0f;
     float buyFee = 4.90f;
     
     // Datum definieren mit der C++20 Syntax (wichtig wegen deiner Trade.h)
     std::chrono::year_month_day buyDate{std::chrono::year(2026), std::chrono::month(6), std::chrono::day(2)};
 
     // 2. Objekt erstellen (Execution)
-    Trade testTrade(name, amount, buyPrice, tax, buyFee, buyDate);
+    Trade testTrade(name, amount, buyPrice, buyFee, buyDate);
 
     // 3. Prüfen, ob die Daten korrekt im Objekt gespeichert wurden (Assertion)
     // REQUIRE bricht den Test sofort ab, wenn die Bedingung nicht stimmt
     REQUIRE(testTrade.getStockName() == "Apple");
     REQUIRE(testTrade.getStockAmount() == 10.0f);
     REQUIRE(testTrade.getSingleBuyPrice() == 150.50f);
-    REQUIRE(testTrade.getTax() == 25.0f);
     REQUIRE(testTrade.getBuyFee() == 4.90f);
     REQUIRE(testTrade.getBuyDate() == buyDate);
 
