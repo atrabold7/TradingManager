@@ -12,7 +12,6 @@ void to_json(json& j, const Trade& t) {
                 {"SellDate", t.m_SellDate.has_value() ? std::format("{:%F}", t.m_SellDate.value()) : "null"},
                 {"SingleSellPrice", t.m_SingleSellPrice},
                 {"SellFee", t.m_SellFee},
-                {"HoldingPeriod", t.m_HoldingPeriod},
                 {"TradeClosed", t.m_TradeClosed}
     };
 }
@@ -43,7 +42,6 @@ void from_json(const json& j, Trade& t) {
     
     j.at("SingleSellPrice").get_to(t.m_SingleSellPrice);
     j.at("SellFee").get_to(t.m_SellFee);
-    j.at("HoldingPeriod").get_to(t.m_HoldingPeriod);
     j.at("TradeClosed").get_to(t.m_TradeClosed);
 }
 
