@@ -2,6 +2,7 @@
 #include "TradePrinter.h"
 #include "Portfolio.h"
 #include <iostream>
+#include <optional>
 
 #include "ITradeRepository.h"
 
@@ -9,6 +10,7 @@ void TradeInputHandler::run() {
     bool isRunning = true;
     
     while (isRunning) {
+        clearConsole();
         std::cout << "[1] Create trades" << std::endl;
         std::cout << "[2] Show trades" << std::endl;
         std::cout << "[3] Show calculation" << std::endl;
@@ -20,6 +22,7 @@ void TradeInputHandler::run() {
         if (inputMenuIndex == 0)
             continue;
         
+        clearConsole();
         switch (inputMenuIndex)
         {
             case 1:
@@ -32,8 +35,16 @@ void TradeInputHandler::run() {
             
             case 3:
                 {
-                    float totalWin = m_portfolio.calculateTotalWin();
-                    displayTotalWin(totalWin);
+                    std::string input;
+                    float totalGrossWin = m_portfolio.calculateTotalGrossWin();
+                    float totalNetWin = m_portfolio.calculateTotalNetWin();
+                    float totalFee = m_portfolio.calculateTotalFee();
+                    float totalTax = m_portfolio.calculateTotalTax();
+                    
+                    
+                    displayPerformanceReport(totalGrossWin, totalFee, totalTax, totalNetWin);
+                    std::cout << std::endl << "Press enter to continue";
+                    std::getline(std::cin, input);
                     break;
                 }
             case 4:
@@ -53,24 +64,65 @@ void TradeInputHandler::run() {
 void TradeInputHandler::getTradeInputData()
 {
     TradeInputData tradeInputData;
-    tradeInputData.m_StockName = readString("Set stock name: ");
-    tradeInputData.m_StockAmount = readFloat("Set stock quantity: ");
-    tradeInputData.m_SingleBuyPrice = readFloat("Set single buy price: ");
-    tradeInputData.m_Tax = readFloat("Set tax: ");
-    tradeInputData.m_BuyFee = readFloat("Set fee: ");
-    tradeInputData.m_BuyDate = readDate("Set buy date YYYY-MM-DD: ");
+    
+    if (auto StockName = readString("Set stock name: "))
+    {
+        tradeInputData.m_StockName = *StockName;
+    }
+    else
+    {
+        return;
+    }
+    
+    if (auto StockAmount = readFloat("Set stock amount: "))
+    {
+        tradeInputData.m_StockAmount = *StockAmount;
+    }
+    else
+    {
+        return;
+    }
+    
+    if (auto SingleBuyPrice = readFloat("Set single buy price: "))
+    {
+        tradeInputData.m_SingleBuyPrice = *SingleBuyPrice;
+    }
+    else
+    {
+        return;
+    }
+    
+    if (auto BuyFee = readFloat("Set fee: "))
+    {
+        tradeInputData.m_BuyFee = *BuyFee;
+    }
+    else
+    {
+        return;
+    }
+    
+    if (auto BuyDate = readDate("Set buy date YYYY-MM-DD: "))
+    {
+        tradeInputData.m_BuyDate = *BuyDate;
+    }
+    else
+    {
+        return;
+    }
     
     tradeInputData.m_TradeClosed = false;
     
     m_portfolio.addTrade(tradeInputData);
-    
-    m_repository.saveData(m_portfolio.getTrades(), "portfolio.json");
 }
-void TradeInputHandler::displayTotalWin(float totalWin)
+void TradeInputHandler::displayPerformanceReport(float totalGrossWin, float totalFee, float totalTax, float totalNetWin)
 {
-    std::cout << "Total Win: " << totalWin << std::endl;
+    std::cout << "Total Gross Win : " << std::setw(30 - 18) << std::right << std::fixed << std::setprecision(2) << totalGrossWin << std::endl;
+    std::cout << "Total Fee: " << std::setw(30 - 11) << std::right << std::fixed << std::setprecision(2) << totalFee << std::endl;
+    std::cout << "Total Tax: " << std::setw(30 - 11) << std::right << std::fixed << std::setprecision(2) << totalTax << std::endl;
+    std::cout << "==============================" << std::endl;
+    std::cout << "Total Net Win: " << std::setw(30 - 15) << std::right << std::fixed << std::setprecision(2) << totalNetWin << std::endl;
 }
-float TradeInputHandler::readFloat(const std::string &command)
+std::optional<float> TradeInputHandler::readFloat(const std::string &command)
 {
     float Data;
     std::string inputData;
@@ -95,26 +147,33 @@ float TradeInputHandler::readFloat(const std::string &command)
         }
         catch (...)
         {
-            std::cout << "Only numbers are valid" << std::endl;
+            if (inputData.empty())
+            {
+                return std::nullopt;
+            }
+            else
+            {
+                std::cout << "Only numbers are valid" << std::endl;
+            }
         }
     }
 }
-std::string TradeInputHandler::readString(const std::string &command)
+std::optional<std::string> TradeInputHandler::readString(const std::string &command)
 {
     std::string inputData;
     std::cout << command;
     
     while (true)
     {
-        std::getline(std::cin >> std::ws, inputData);
+        std::getline(std::cin, inputData);
         if (inputData.empty())
         {
-            std::cout << "Set a value" << std::endl;
+            return std::nullopt;
         }
         else return inputData;
     }
 }
-std::chrono::year_month_day TradeInputHandler::readDate(const std::string &command)
+std::optional<std::chrono::year_month_day> TradeInputHandler::readDate(const std::string &command)
 {
     std::string inputString;
     std::chrono::year_month_day inputYear;
@@ -123,14 +182,20 @@ std::chrono::year_month_day TradeInputHandler::readDate(const std::string &comma
     {
         std::cout << command;
         
-        std::getline(std::cin >> std::ws, inputString);
+        std::getline(std::cin, inputString);
         std::istringstream ss{inputString};
 
         if (ss >> std::chrono::parse("%F", inputYear) && inputYear.ok()) {
             return inputYear;
         } else {
-            std::cout << "Ungültiges Datum oder falsches Format. Bitte YYYY-MM-DD eingeben: ";
-            std::cin.clear();
+            if (inputString.empty())
+            {
+                return std::nullopt;
+            }
+            else
+            {
+                std::cout << "Ungültiges Datum oder falsches Format. Bitte YYYY-MM-DD eingeben: ";
+            }
         }
     }
 }
@@ -146,14 +211,14 @@ void TradeInputHandler::changeDataInTrade()
         return;
     
     tradeData.sellFee = m_portfolio.getTrades()[indexTrade - 1].getSellFee();
+    tradeData.tax = m_portfolio.getTrades()[indexTrade - 1].getTax();
     tradeData.singleSellPrice = m_portfolio.getTrades()[indexTrade - 1].getSingleSellPrice();
     tradeData.sellDate = m_portfolio.getTrades()[indexTrade - 1].getSellDate();
-    tradeData.holdingPeriod = m_portfolio.getTrades()[indexTrade - 1].getHoldingPeriod();
     
     std::cout << std::endl << "[1] Sell Fee";
     std::cout << std::endl << "[2] Single Sell Price";
     std::cout << std::endl << "[3] Sell Date";
-    std::cout << std::endl << "[4] Holding Period";
+    std::cout << std::endl << "[4] Tax";
     std::cout << std::endl << "Press valid field number to change or enter to leave: ";
       
     int indexField = readSaveInteger(4);
@@ -162,17 +227,48 @@ void TradeInputHandler::changeDataInTrade()
     
     switch (indexField)
     {
-    case 1:                    
-        tradeData.sellFee = readFloat("Set fee: ");
+    case 1:
+        if (auto sellFee = readFloat("Set fee or enter to leave: "))
+        {
+            tradeData.sellFee = *sellFee;
+        }
+        else
+        {
+            return;
+        }
         break;
     case 2:
-        tradeData.singleSellPrice = readFloat("Set single sell price: ");
+        if (auto singleSellPrice = readFloat("Set single sell price or enter to leave: "))
+        {
+            tradeData.singleSellPrice = *singleSellPrice;
+        }
+        else
+        {
+            return;
+        }
         break;
     case 3:
-        tradeData.sellDate = readDate("Set sell date YYYY-MM-DD: ");
-        break;
+        {
+            tradeData.sellDate = readDate("Set sell date YYYY-MM-DD or enter to leave: ");
+            if (tradeData.sellDate.has_value())
+            {
+                std::chrono::sys_days sysSellDate {tradeData.sellDate.value()};
+            }
+            else
+            {
+                return;
+            }
+            break;
+        }
     case 4:
-        tradeData.holdingPeriod = readFloat("Set holding period: ");
+        if (auto tax = readFloat("Set tax or enter to leave: "))
+        {
+            tradeData.tax = *tax;
+        }
+        else
+        {
+            return;
+        }
         break;
     }
             
@@ -202,4 +298,11 @@ int TradeInputHandler::readSaveInteger(int maxIndex)
         return 0;
     }
     return 0;
+}
+void TradeInputHandler::clearConsole() {
+#ifdef _WIN32
+    std::system("cls");
+#else
+    std::cout << "\033[2J\033[1;1H";
+#endif
 }
