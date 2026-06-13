@@ -32,7 +32,6 @@ TEST_CASE("Portfolio - Gewinnberechnung", "[Portfolio]") {
         trade[0].setSellFee(40);
         trade[0].setSingleSellPrice(320);
         trade[0].setSellDate(std::chrono::year(2026) / 6 / 5);
-        trade[0].setHoldingPeriod(7);
         trade[0].setTradeClosed(true);
         REQUIRE(portfolio.calculateTotalWin() == 110);
     }
@@ -42,7 +41,6 @@ TEST_CASE("Portfolio - Gewinnberechnung", "[Portfolio]") {
         trade[0].setSellFee(40);
         trade[0].setSingleSellPrice(220);
         trade[0].setSellDate(std::chrono::year(2026) / 6 / 5);
-        trade[0].setHoldingPeriod(7);
         trade[0].setTradeClosed(true);
         REQUIRE(portfolio.calculateTotalWin() == -890);
     }
