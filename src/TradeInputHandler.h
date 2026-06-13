@@ -31,4 +31,6 @@ public:
     std::string readString(const std::string &command);
     std::chrono::year_month_day readDate(const std::string &command);
     void displayTotalWin(float totalWin);
+    int readSaveInteger(int maxIndex);
+    void changeDataInTrade();
     };
