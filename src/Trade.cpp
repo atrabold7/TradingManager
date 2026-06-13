@@ -10,9 +10,9 @@ void Trade::setSingleSellPrice(float SingleSellPrice) {
 void Trade::setSellDate(std::chrono::year_month_day SellDate) {
     m_SellDate = SellDate;
     }
-void Trade::setHoldingPeriod(int HoldingPeriod) {
-    m_HoldingPeriod = HoldingPeriod;
-    }
+void Trade::setTax(float Tax) {
+    m_Tax = Tax;
+}
 void Trade::setTradeClosed(bool TradeClosed) {
     m_TradeClosed = TradeClosed;
     }
@@ -42,9 +42,6 @@ float Trade::getSingleSellPrice() const {
     }
 std::optional<std::chrono::year_month_day> Trade::getSellDate() const {
     return m_SellDate;
-    }
-int Trade::getHoldingPeriod() const {
-    return m_HoldingPeriod;
     }
 bool Trade::getTradeClosed() const {
     return m_TradeClosed;
