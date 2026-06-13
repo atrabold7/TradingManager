@@ -1,4 +1,5 @@
 ﻿#include "TradePrinter.h"
+#include "TradingConstants.h"
 #include "Trade.h"
 #include "Portfolio.h"
 #include <iostream>
@@ -27,10 +28,10 @@ void TradePrinter::printTrade(int StockId, const Trade &trade)
         
     std::cout << std::left << "[" << StockId << std::setw(4 - std::to_string(StockId).length()) << "]"
         << std::setw(15) << trade.getStockName()
-        << std::setw(15) << trade.getStockAmount()
-        << std::setw(15) << trade.getSingleBuyPrice()
+        << std::setw(15) << Trading::longlongToDisplay(trade.getStockAmount())
+        << std::setw(15) << Trading::longlongToDisplay(trade.getSingleBuyPrice())
         << std::setw(15) << trade.getBuyDate()
-        << std::setw(15) << trade.getSingleSellPrice()
+        << std::setw(15) << Trading::longlongToDisplay(trade.getSingleSellPrice())
         << std::setw(15) << SellDate
         << std::setw(15) << holdTimePrint
         << std::setw(15) << (trade.getTradeClosed() ? "Closed" : "Open")

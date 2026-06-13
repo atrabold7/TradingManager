@@ -21,10 +21,10 @@ private:
 public:
     void addTrade(TradeInputData tradeInputData);
     void changeTrade(Trade &trade, TradeData tradeData);
-    float calculateTotalNetWin();
-    float calculateTotalGrossWin();
-    float calculateTotalFee();
-    float calculateTotalTax();
+    long long calculateTotalNetWin();
+    long long calculateTotalGrossWin();
+    long long calculateTotalFee();
+    long long calculateTotalTax();
     const std::vector<Trade>& getTrades() const;
     std::vector<Trade>& getTradesMutable();
     };

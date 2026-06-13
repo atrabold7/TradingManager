@@ -1,4 +1,5 @@
 #include "TradeInputHandler.h"
+#include "TradingConstants.h"
 #include "TradePrinter.h"
 #include "Portfolio.h"
 #include <iostream>
@@ -36,10 +37,10 @@ void TradeInputHandler::run() {
             case 3:
                 {
                     std::string input;
-                    float totalGrossWin = m_portfolio.calculateTotalGrossWin();
-                    float totalNetWin = m_portfolio.calculateTotalNetWin();
-                    float totalFee = m_portfolio.calculateTotalFee();
-                    float totalTax = m_portfolio.calculateTotalTax();
+                    long long totalGrossWin = m_portfolio.calculateTotalGrossWin();
+                    long long totalNetWin = m_portfolio.calculateTotalNetWin();
+                    long long totalFee = m_portfolio.calculateTotalFee();
+                    long long totalTax = m_portfolio.calculateTotalTax();
                     
                     
                     displayPerformanceReport(totalGrossWin, totalFee, totalTax, totalNetWin);
@@ -74,7 +75,7 @@ void TradeInputHandler::getTradeInputData()
         return;
     }
     
-    if (auto StockAmount = readFloat("Set stock amount: "))
+    if (auto StockAmount = readLongLong("Set stock amount: "))
     {
         tradeInputData.m_StockAmount = *StockAmount;
     }
@@ -83,7 +84,7 @@ void TradeInputHandler::getTradeInputData()
         return;
     }
     
-    if (auto SingleBuyPrice = readFloat("Set single buy price: "))
+    if (auto SingleBuyPrice = readLongLong("Set single buy price: "))
     {
         tradeInputData.m_SingleBuyPrice = *SingleBuyPrice;
     }
@@ -92,7 +93,7 @@ void TradeInputHandler::getTradeInputData()
         return;
     }
     
-    if (auto BuyFee = readFloat("Set fee: "))
+    if (auto BuyFee = readLongLong("Set fee: "))
     {
         tradeInputData.m_BuyFee = *BuyFee;
     }
@@ -114,17 +115,17 @@ void TradeInputHandler::getTradeInputData()
     
     m_portfolio.addTrade(tradeInputData);
 }
-void TradeInputHandler::displayPerformanceReport(float totalGrossWin, float totalFee, float totalTax, float totalNetWin)
+void TradeInputHandler::displayPerformanceReport(long long totalGrossWin, long long totalFee, long long totalTax, long long totalNetWin)
 {
-    std::cout << "Total Gross Win : " << std::setw(30 - 18) << std::right << std::fixed << std::setprecision(2) << totalGrossWin << std::endl;
-    std::cout << "Total Fee: " << std::setw(30 - 11) << std::right << std::fixed << std::setprecision(2) << totalFee << std::endl;
-    std::cout << "Total Tax: " << std::setw(30 - 11) << std::right << std::fixed << std::setprecision(2) << totalTax << std::endl;
+    std::cout << "Total Gross Win : " << std::setw(30 - 18) << std::fixed << std::setprecision(2) << std::right << Trading::longlongToDisplay(totalGrossWin) << std::endl;
+    std::cout << "Total Fee: " << std::setw(30 - 11) << std::fixed << std::setprecision(2) << std::right << Trading::longlongToDisplay(totalFee) << std::endl;
+    std::cout << "Total Tax: " << std::setw(30 - 11) << std::fixed << std::setprecision(2) << std::right << Trading::longlongToDisplay(totalTax) << std::endl;
     std::cout << "==============================" << std::endl;
-    std::cout << "Total Net Win: " << std::setw(30 - 15) << std::right << std::fixed << std::setprecision(2) << totalNetWin << std::endl;
+    std::cout << "Total Net Win: " << std::setw(30 - 15) << std::fixed << std::setprecision(2) << std::right << Trading::longlongToDisplay(totalNetWin) << std::endl;
 }
-std::optional<float> TradeInputHandler::readFloat(const std::string &command)
+std::optional<long long> TradeInputHandler::readLongLong(const std::string &command)
 {
-    float Data;
+    long long Data;
     std::string inputData;
     std::cout << command;
     size_t stopPos;
@@ -134,9 +135,10 @@ std::optional<float> TradeInputHandler::readFloat(const std::string &command)
         std::getline(std::cin, inputData);
 
         try
-        {
-            Data = std::stof(inputData, &stopPos);
-            if (stopPos != inputData.length() || Data <= 0)
+        {            
+            long long Data = static_cast<long long>(std::round(std::stod(inputData) * Trading::SCALE));
+            
+            if (Data <= 0)
             {
                 std::cout << "Only numbers > 0 are valid" << std::endl;
             }
@@ -228,7 +230,7 @@ void TradeInputHandler::changeDataInTrade()
     switch (indexField)
     {
     case 1:
-        if (auto sellFee = readFloat("Set fee or enter to leave: "))
+        if (auto sellFee = readLongLong("Set fee or enter to leave: "))
         {
             tradeData.sellFee = *sellFee;
         }
@@ -238,7 +240,7 @@ void TradeInputHandler::changeDataInTrade()
         }
         break;
     case 2:
-        if (auto singleSellPrice = readFloat("Set single sell price or enter to leave: "))
+        if (auto singleSellPrice = readLongLong("Set single sell price or enter to leave: "))
         {
             tradeData.singleSellPrice = *singleSellPrice;
         }
@@ -261,7 +263,7 @@ void TradeInputHandler::changeDataInTrade()
             break;
         }
     case 4:
-        if (auto tax = readFloat("Set tax or enter to leave: "))
+        if (auto tax = readLongLong("Set tax or enter to leave: "))
         {
             tradeData.tax = *tax;
         }

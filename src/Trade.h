@@ -13,21 +13,21 @@ void from_json(const json& j, Trade& t);
 class Trade {
 private:
     std::string m_StockName;
-    float m_StockAmount = 0.0f;
-    float m_SingleBuyPrice = 0.0f;
-    float m_BuyFee = 0.0f;
+    long long m_StockAmount {0};
+    long long m_SingleBuyPrice {0};
+    long long m_BuyFee {0};
     std::chrono::year_month_day m_BuyDate;
     std::optional<std::chrono::year_month_day> m_SellDate;
-    float m_SingleSellPrice = 0.0f;
-    float m_SellFee = 0.0f;
-    float m_Tax = 0.0f;
+    long long m_SingleSellPrice {0};
+    long long m_SellFee {0};
+    long long m_Tax = {0};
     bool m_TradeClosed = false;
     
     friend void to_json(json& j, const Trade& t);
     friend void from_json(const json& j, Trade& t);
     
 public:
-    Trade (const std::string &StockName, float StockAmount, float SingleBuyPrice, float BuyFee, std::chrono::year_month_day BuyDate) :
+    Trade (const std::string &StockName, long long StockAmount, long long SingleBuyPrice, long long BuyFee, std::chrono::year_month_day BuyDate) :
         m_StockName(StockName), m_StockAmount(StockAmount), m_SingleBuyPrice(SingleBuyPrice), m_BuyFee(BuyFee),
         m_BuyDate(BuyDate) { }
     
@@ -42,13 +42,13 @@ public:
     void setTradeClosed(bool TradeClosed);
 
     const std::string& getStockName() const;
-    float getStockAmount() const;
-    float getSingleBuyPrice() const;
-    float getTax() const;
-    float getBuyFee() const;
-    float getSellFee() const;
+    long long getStockAmount() const;
+    long long getSingleBuyPrice() const;
+    long long getTax() const;
+    long long getBuyFee() const;
+    long long getSellFee() const;
     std::chrono::year_month_day getBuyDate() const;
-    float getSingleSellPrice() const;
+    long long getSingleSellPrice() const;
     std::optional<std::chrono::year_month_day> getSellDate() const;
     bool getTradeClosed() const;
     };

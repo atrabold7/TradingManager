@@ -1,14 +1,15 @@
 #include "Portfolio.h"
 #include <fstream>
 #include "TradeInputHandler.h"
+#include "TradingConstants.h"
 
-float Portfolio::calculateTotalNetWin() {
-    float totalNetWin = 0;
+long long Portfolio::calculateTotalNetWin() {
+    long long totalNetWin {0};
 
     for (const Trade& trade : m_trades) {
         if (trade.getTradeClosed()) {
-            float revenue = trade.getStockAmount() * trade.getSingleSellPrice();
-            float expenses = trade.getStockAmount() * trade.getSingleBuyPrice()
+            long long revenue = Trading::longlongToDisplay(trade.getStockAmount() * trade.getSingleSellPrice());
+            long long expenses = Trading::longlongToDisplay(trade.getStockAmount() * trade.getSingleBuyPrice())
                 + trade.getSellFee()
                 + trade.getTax()
                 + trade.getBuyFee();
@@ -18,22 +19,22 @@ float Portfolio::calculateTotalNetWin() {
         }
     return totalNetWin;
     }
-float Portfolio::calculateTotalGrossWin() {
-    float totalGrossWin = 0;
+long long Portfolio::calculateTotalGrossWin() {
+    long long totalGrossWin {0};
 
     for (const Trade& trade : m_trades) {
         if (trade.getTradeClosed()) {
-            float revenue = trade.getStockAmount() * trade.getSingleSellPrice();
-            float expenses = trade.getStockAmount() * trade.getSingleBuyPrice();
+            long long revenue = Trading::longlongToDisplay(trade.getStockAmount() * trade.getSingleSellPrice());
+            long long expenses = Trading::longlongToDisplay(trade.getStockAmount() * trade.getSingleBuyPrice());
 
             totalGrossWin += revenue - expenses;
         }
     }
     return totalGrossWin;
 }
-float Portfolio::calculateTotalFee() {
-    float totalFee = std::accumulate(m_trades.begin(), m_trades.end(), 0.0f, 
-    [](float sum, const Trade& trade) {
+long long Portfolio::calculateTotalFee() {
+    long long totalFee = std::accumulate(m_trades.begin(), m_trades.end(), 0LL, 
+    [](long long sum, const Trade& trade) {
         if (trade.getTradeClosed())
         {
             return sum + trade.getBuyFee() + trade.getSellFee();    
@@ -46,9 +47,9 @@ float Portfolio::calculateTotalFee() {
     
     return totalFee;
 }
-float Portfolio::calculateTotalTax() {
-    float totalTax = std::accumulate(m_trades.begin(), m_trades.end(), 0.0f, 
-    [](float sum, const Trade& trade) {
+long long Portfolio::calculateTotalTax() {
+    long long totalTax = std::accumulate(m_trades.begin(), m_trades.end(), 0LL, 
+    [](long long sum, const Trade& trade) {
         if (trade.getTradeClosed())
         {
             return sum + trade.getTax();   

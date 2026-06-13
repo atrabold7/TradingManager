@@ -27,6 +27,7 @@ add_executable(TradingManager
         src/ITradeRepository.h
         src/Trade.h
         src/TradeInputHandler.h
+        src/TradingConstants.h
 )
 target_link_libraries(TradingManager PRIVATE nlohmann_json::nlohmann_json)
 
