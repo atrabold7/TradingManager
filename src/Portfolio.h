@@ -7,7 +7,7 @@ struct TradeData
     std::optional<std::chrono::year_month_day> sellDate;
     float singleSellPrice = 0.0f;
     float sellFee = 0.0f;
-    int holdingPeriod = 0;
+    float tax = 0.0f;
     bool tradeClosed = false;
 };
 
@@ -21,7 +21,10 @@ private:
 public:
     void addTrade(TradeInputData tradeInputData);
     void changeTrade(Trade &trade, TradeData tradeData);
-    float calculateTotalWin();
+    float calculateTotalNetWin();
+    float calculateTotalGrossWin();
+    float calculateTotalFee();
+    float calculateTotalTax();
     const std::vector<Trade>& getTrades() const;
     std::vector<Trade>& getTradesMutable();
     };
