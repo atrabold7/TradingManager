@@ -125,10 +125,8 @@ void TradeInputHandler::displayPerformanceReport(long long totalGrossWin, long l
 }
 std::optional<long long> TradeInputHandler::readLongLong(const std::string &command)
 {
-    long long Data;
     std::string inputData;
     std::cout << command;
-    size_t stopPos;
     
     while (true)
     {
