@@ -32,23 +32,33 @@ float Portfolio::calculateTotalGrossWin() {
     return totalGrossWin;
 }
 float Portfolio::calculateTotalFee() {
-    float totalFee = 0;
-
-    for (const Trade& trade : m_trades) {
-        if (trade.getTradeClosed()) {
-            totalFee += trade.getBuyFee() + trade.getSellFee();
+    float totalFee = std::accumulate(m_trades.begin(), m_trades.end(), 0.0f, 
+    [](float sum, const Trade& trade) {
+        if (trade.getTradeClosed())
+        {
+            return sum + trade.getBuyFee() + trade.getSellFee();    
         }
-    }
+        else
+        {
+            return sum;
+        }
+    });
+    
     return totalFee;
 }
 float Portfolio::calculateTotalTax() {
-    float totalTax = 0;
-
-    for (const Trade& trade : m_trades) {
-        if (trade.getTradeClosed()) {
-            totalTax += trade.getTax();
+    float totalTax = std::accumulate(m_trades.begin(), m_trades.end(), 0.0f, 
+    [](float sum, const Trade& trade) {
+        if (trade.getTradeClosed())
+        {
+            return sum + trade.getTax();   
         }
-    }
+        else
+        {
+            return sum;
+        }
+    });
+    
     return totalTax;
 }
 void Portfolio::addTrade(TradeInputData tradeInputData)
