@@ -6,11 +6,7 @@
 #include "ITradeRepository.h"
 
 void TradeInputHandler::run() {
-    std::string input;
-    int inputTradeField;
     bool isRunning = true;
-    float totalWin = 0.0f;
-    int inputMenuIndex;
     
     while (isRunning) {
         std::cout << "[1] Create trades" << std::endl;
@@ -20,7 +16,7 @@ void TradeInputHandler::run() {
         std::cout << "[5] Save data" << std::endl;
         std::cout << "[6] End" << std::endl;
         
-        inputMenuIndex = readSaveInteger(6);
+        int inputMenuIndex = readSaveInteger(6);
         if (inputMenuIndex == 0)
             continue;
         
@@ -35,10 +31,11 @@ void TradeInputHandler::run() {
             break;
             
             case 3:
-            totalWin = m_portfolio.calculateTotalWin();
-            displayTotalWin(totalWin);
-            break;
-            
+                {
+                    float totalWin = m_portfolio.calculateTotalWin();
+                    displayTotalWin(totalWin);
+                    break;
+                }
             case 4:
             m_repository.readTrades(m_portfolio.getTradesMutable(), "portfolio.json");
             break;
