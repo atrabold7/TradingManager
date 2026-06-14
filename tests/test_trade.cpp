@@ -7,9 +7,9 @@
 TEST_CASE("Trade - Konstruktor und Getter testen", "[Trade]") {
     // 1. Spieldaten vorbereiten (Setup)
     std::string name = "Apple";
-    float amount = 10.0f;
-    float buyPrice = 150.50f;
-    float buyFee = 4.90f;
+    long long amount = 10000;
+    long long buyPrice = 150500;
+    long long buyFee = 4900;
     
     // Datum definieren mit der C++20 Syntax (wichtig wegen deiner Trade.h)
     std::chrono::year_month_day buyDate{std::chrono::year(2026), std::chrono::month(6), std::chrono::day(2)};
@@ -20,9 +20,9 @@ TEST_CASE("Trade - Konstruktor und Getter testen", "[Trade]") {
     // 3. Prüfen, ob die Daten korrekt im Objekt gespeichert wurden (Assertion)
     // REQUIRE bricht den Test sofort ab, wenn die Bedingung nicht stimmt
     REQUIRE(testTrade.getStockName() == "Apple");
-    REQUIRE(testTrade.getStockAmount() == 10.0f);
-    REQUIRE(testTrade.getSingleBuyPrice() == 150.50f);
-    REQUIRE(testTrade.getBuyFee() == 4.90f);
+    REQUIRE(testTrade.getStockAmount() == 10000);
+    REQUIRE(testTrade.getSingleBuyPrice() == 150500);
+    REQUIRE(testTrade.getBuyFee() == 4900);
     REQUIRE(testTrade.getBuyDate() == buyDate);
 
     // WICHTIG: Wir prüfen auch die Standardwerte, die im Konstruktor nicht übergeben wurden!
