@@ -19,25 +19,25 @@ void Trade::setTradeClosed(bool TradeClosed) {
 const std::string& Trade::getStockName() const {
     return m_StockName;
     }
-float Trade::getSingleBuyPrice() const {
+long long Trade::getSingleBuyPrice() const {
     return m_SingleBuyPrice;
     }
-float Trade::getTax() const {
+long long Trade::getTax() const {
     return m_Tax;
     }
-float Trade::getBuyFee() const {
+long long Trade::getBuyFee() const {
     return m_BuyFee;
     }
-float Trade::getStockAmount() const {
+long long Trade::getStockAmount() const {
     return m_StockAmount;
     }
-float Trade::getSellFee() const {
+long long Trade::getSellFee() const {
     return m_SellFee;
     }
 std::chrono::year_month_day Trade::getBuyDate() const {
     return m_BuyDate;
     }
-float Trade::getSingleSellPrice() const {
+long long Trade::getSingleSellPrice() const {
     return m_SingleSellPrice;
     }
 std::optional<std::chrono::year_month_day> Trade::getSellDate() const {
