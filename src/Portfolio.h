@@ -5,9 +5,9 @@
 struct TradeData
 {
     std::optional<std::chrono::year_month_day> sellDate;
-    float singleSellPrice = 0.0f;
-    float sellFee = 0.0f;
-    float tax = 0.0f;
+    long long singleSellPrice = 0;
+    long long sellFee = 0;
+    long long tax = 0;
     bool tradeClosed = false;
 };
 
