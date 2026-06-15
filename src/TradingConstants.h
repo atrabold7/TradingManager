@@ -3,6 +3,7 @@
 
 namespace Trading {
     static constexpr long long SCALE = 100000000;
+    static constexpr std::string_view FILESTOCKSTEST {"test_portfolio_stock.json"};
     static constexpr std::string_view FILESTOCKS {"portfolio_stock.json"};
     static constexpr std::string_view FILESCRYPTO {"portfolio_crypto.json"};
     
