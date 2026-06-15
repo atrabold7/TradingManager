@@ -6,10 +6,8 @@ WORKDIR /app
 COPY . .
 
 # check src folder
-RUN cppcheck --enable=all --error-exitcode=1 --std=c++20 --suppress=missingInclude \
+RUN cppcheck --enable=all --error-exitcode=1 --std=c++20 \
     --suppress=missingIncludeSystem \
-    --suppress=unusedFunction \
-    --suppress=unmatchedSuppression \
     src/
 
 # build
