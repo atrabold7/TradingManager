@@ -49,11 +49,11 @@ void TradeInputHandler::run() {
                     break;
                 }
             case 4:
-            m_repository.readTrades(m_portfolio.getTradesMutable(), "portfolio.json");
+            m_repository.readTrades(m_portfolio.getTradesMutable());
             break;
             
-            case 5:
-            m_repository.saveData(m_portfolio.getTrades(), "portfolio.json");
+        case 5:
+            m_repository.saveData(m_portfolio.getTrades());
             break;
             
             case 6:
@@ -65,7 +65,7 @@ void TradeInputHandler::run() {
 void TradeInputHandler::getTradeInputData()
 {
     TradeInputData tradeInputData;
-    
+        
     if (auto StockName = readString("Set stock name: "))
     {
         tradeInputData.m_StockName = *StockName;
