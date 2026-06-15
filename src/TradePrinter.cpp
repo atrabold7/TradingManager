@@ -41,16 +41,6 @@ void TradePrinter::printTrade(int StockId, const Trade &trade)
 void TradePrinter::printAll(const Portfolio& m_portfolio) {
     int StockId = 0;
     
-    
-    auto vect = m_portfolio.getTrades();
-    std::sort(vect.begin(),vect.end(),
-        [](const Trade& a, const Trade& b)
-        {
-            return a.getStockName() < b.getStockName();
-        });
-    
-    
-    
     std::cout << std::left << std::setw(5) << "Id"
         << std::left << std::setw(25) << "Stock Name"
         << std::setw(9) << "Qty"
@@ -62,7 +52,7 @@ void TradePrinter::printAll(const Portfolio& m_portfolio) {
         << std::setw(15) << "Status"
         << std::endl;
 
-    for (const auto& trade : vect) {
+    for (const auto& trade : m_portfolio.getTrades()) {
         std::cout << "========================================================================================================================" << std::endl;
         TradePrinter::printTrade(++StockId, trade);
         }
