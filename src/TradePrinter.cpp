@@ -28,8 +28,8 @@ void TradePrinter::printTrade(int StockId, const Trade &trade)
         
     std::cout << std::left << "[" << StockId << std::setw(4 - std::to_string(StockId).length()) << "]"
         << std::setw(15) << trade.getStockName()
-        << std::setw(15) << Trading::longlongToDisplay(trade.getStockAmount())
-        << std::setw(15) << Trading::longlongToDisplay(trade.getSingleBuyPrice())
+        << std::fixed << std::setprecision(8) << std::setw(15) << Trading::longlongToDisplay(trade.getStockAmount())
+        << std::setprecision(2) << std::setw(15) << Trading::longlongToDisplay(trade.getSingleBuyPrice())
         << std::setw(15) << trade.getBuyDate()
         << std::setw(15) << Trading::longlongToDisplay(trade.getSingleSellPrice())
         << std::setw(15) << SellDate
