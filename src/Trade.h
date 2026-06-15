@@ -35,10 +35,10 @@ public:
 
     Trade() = default;
     
-    void setSellFee(float SellFee);
-    void setSingleSellPrice(float SingleSellPrice);
+    void setSellFee(long long SellFee);
+    void setSingleSellPrice(long long SingleSellPrice);
     void setSellDate(std::chrono::year_month_day SellDate);
-    void setTax(float Tax);
+    void setTax(long long Tax);
     void setTradeClosed(bool TradeClosed);
 
     const std::string& getStockName() const;

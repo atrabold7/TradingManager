@@ -1,16 +1,16 @@
 #include "Trade.h"
 #include <iostream>
 
-void Trade::setSellFee(float SellFee) {
+void Trade::setSellFee(long long SellFee) {
     m_SellFee = SellFee;
     }
-void Trade::setSingleSellPrice(float SingleSellPrice) {
+void Trade::setSingleSellPrice(long long SingleSellPrice) {
     m_SingleSellPrice = SingleSellPrice;
     }
 void Trade::setSellDate(std::chrono::year_month_day SellDate) {
     m_SellDate = SellDate;
     }
-void Trade::setTax(float Tax) {
+void Trade::setTax(long long Tax) {
     m_Tax = Tax;
 }
 void Trade::setTradeClosed(bool TradeClosed) {
