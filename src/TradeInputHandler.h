@@ -32,5 +32,6 @@ public:
     void displayPerformanceReport(long long totalGrossWin, long long totalFee, long long totalTax, long long totalNetWin);
     int readSaveInteger(int maxIndex);
     void changeDataInTrade();
+    void sortAssets();
     void clearConsole();
     };

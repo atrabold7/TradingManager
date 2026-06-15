@@ -17,9 +17,10 @@ void TradeInputHandler::run() {
         std::cout << "[3] Show calculation" << std::endl;
         std::cout << "[4] Load data" << std::endl;
         std::cout << "[5] Save data" << std::endl;
-        std::cout << "[6] End" << std::endl;
+        std::cout << "[6] Sort database" << std::endl;
+        std::cout << "[7] End" << std::endl;
         
-        int inputMenuIndex = readSaveInteger(6);
+        int inputMenuIndex = readSaveInteger(7);
         if (inputMenuIndex == 0)
             continue;
         
@@ -56,12 +57,91 @@ void TradeInputHandler::run() {
             m_repository.saveData(m_portfolio.getTrades());
             break;
             
-            case 6:
+        case 6:
+            sortAssets();
+            break;
+        
+        case 7:
             isRunning = false;
             break;
         }
     }
 }
+
+void TradeInputHandler::sortAssets()
+{
+    std::cout << std::endl << "[1] Asset name";
+    std::cout << std::endl << "[2] Qty";
+    std::cout << std::endl << "[3] Buy Date";
+    std::cout << std::endl << "[4] Sell Date";
+    std::cout << std::endl << "[5] Hold time";
+    std::cout << std::endl << "[6] Status";
+    std::cout << std::endl << "Press valid field for sort field or enter to leave: ";
+      
+    int indexField = readSaveInteger(6);
+    if (indexField == 0)
+        return;
+    
+    std::sort(m_portfolio.getTradesMutable().begin(),m_portfolio.getTradesMutable().end(),
+            [indexField](const Trade &trade1, const Trade &trade2)
+        {
+            switch (indexField)
+    {
+    case 1:
+            return trade1.getStockName() < trade2.getStockName();
+        break;
+    case 2:
+            return trade1.getStockAmount() < trade2.getStockAmount();
+        break;
+    case 3:
+            return trade1.getBuyDate() < trade2.getBuyDate();
+        break;
+    case 4:
+                if(!trade1.getSellDate() && !trade2.getSellDate())
+                {
+                    return false;
+                }
+                else if (!trade1.getSellDate())
+                {
+                    return false;
+                }
+                else if (!trade2.getSellDate())
+                {
+                    return true;
+                }
+                else
+                {
+                    return trade1.getSellDate().value() < trade2.getSellDate().value();
+                }
+        break;
+    case 5:
+                if (!trade1.getSellDate() && !trade2.getSellDate())
+                {
+                    return false;
+                }
+                else if (!trade1.getSellDate())
+                {
+                    return false;
+                }
+                else if (!trade2.getSellDate())
+                {
+                    return true;
+                }
+                else
+                {
+                    auto holtTime1 = std::chrono::sys_days(trade1.getSellDate().value()) - std::chrono::sys_days(trade1.getBuyDate());
+                    auto holtTime2 = std::chrono::sys_days(trade2.getSellDate().value()) - std::chrono::sys_days(trade2.getBuyDate()); 
+                    
+                    return holtTime1 < holtTime2;
+                }
+        break;
+    case 6:
+            return trade1.getTradeClosed() < trade2.getTradeClosed();
+        break;
+    }
+        });
+}
+
 void TradeInputHandler::getTradeInputData()
 {
     TradeInputData tradeInputData;
