@@ -2,6 +2,7 @@
 #include <vector>
 #include "FileTradeRepository.h"
 #include "Trade.h"
+#include "TradingConstants.h"
 
 // ---------------------------------------------------------------------
 // TEST BLOCK 1: checking functions working properly
@@ -9,10 +10,9 @@
 TEST_CASE("FileTraderRepository - check functions", "[FileTraderRepository]") {
     // create vars
     std::string name = "Apple";
-    float amount = 10.0f;
-    float buyPrice = 150.50f;
-    float tax = 25.0f;
-    float buyFee = 4.90f;
+    long long amount = 900000000;
+    long long buyPrice = 33560000000;
+    long long buyFee = 955000000;
     std::chrono::year_month_day buyDate{std::chrono::year(2026), std::chrono::month(6), std::chrono::day(2)};
     
     // create trades
@@ -23,11 +23,11 @@ TEST_CASE("FileTraderRepository - check functions", "[FileTraderRepository]") {
     writeTrades.emplace_back(name, amount, buyPrice, buyFee, buyDate);
     writeTrades.emplace_back(name, amount, buyPrice, buyFee, buyDate);
     
-    auto repo = std::make_unique<FileTradeRepository>();
+    auto repo = std::make_unique<FileTradeRepository>(std::string(Trading::FILESTOCKSTEST));
     
-    REQUIRE(repo->saveData(writeTrades, "test_file.json"));
-    REQUIRE(repo->readTrades(readTrades, "test_file.json"));
+    REQUIRE(repo->saveData(writeTrades));
+    REQUIRE(repo->readTrades(readTrades));
     REQUIRE(writeTrades == readTrades);
     
-    std::remove("test_file.json");
+    std::remove(Trading::FILESTOCKSTEST.data());
 }

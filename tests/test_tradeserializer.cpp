@@ -9,14 +9,13 @@
 TEST_CASE("TradeSerializer - json Test", "[TradeSerializer]") {
     // fill vars
     std::string StockName[3] {"Alphabet", "BYD", "Rheinmetall"};
-    float StockAmount = 10.0f;
-    float SingleBuyPrice = 300.0f;
-    float Tax = 40.0f;
-    float BuyFee = 20.0f;
+    long long StockAmount = 9900000000;
+    long long SingleBuyPrice = 6176000000;
+    long long Tax = 5560000000;
+    long long BuyFee = 2245000000;
     std::chrono::year_month_day BuyDate {std::chrono::year(2026), std::chrono::month(6), std::chrono::day(2)};
-    float SingleSellPrice = 350.0f;
-    float SellFee = 30.0f;
-    bool TradeClosed = false;
+    long long SingleSellPrice = 6380000000;
+    long long SellFee = 1956000000;
     
     std::optional<std::chrono::year_month_day> SellDate = 
         std::chrono::year_month_day{std::chrono::year(2026), std::chrono::month(6), std::chrono::day(10)};
@@ -47,7 +46,8 @@ TEST_CASE("TradeSerializer - json Test", "[TradeSerializer]") {
         tradesToWrite[0].setSellDate(SellDate.value());
         tradesToWrite[0].setSingleSellPrice(SingleSellPrice);
         tradesToWrite[0].setSellFee(SellFee);
-        tradesToWrite[0].setTradeClosed(false);
+        tradesToWrite[0].setTax(Tax);
+        tradesToWrite[0].setTradeClosed(true);
         
         std::stringstream ss;
     
@@ -69,7 +69,8 @@ TEST_CASE("TradeSerializer - json Test", "[TradeSerializer]") {
             tradesToWrite[ii].setSellDate(SellDate.value());
             tradesToWrite[ii].setSingleSellPrice(SingleSellPrice);
             tradesToWrite[ii].setSellFee(SellFee);
-            tradesToWrite[ii].setTradeClosed(false);
+            tradesToWrite[0].setTax(Tax);
+            tradesToWrite[ii].setTradeClosed(true);
         }
         std::stringstream ss;
     

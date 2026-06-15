@@ -9,10 +9,10 @@
 TEST_CASE("Portfolio - Gewinnberechnung", "[Portfolio]") {
     // 1. Spieldaten vorbereiten (Setup)
     TradeInputData tradeInputData;
-    tradeInputData.m_StockName = "Alphabet";
-    tradeInputData.m_StockAmount = 10000;
-    tradeInputData.m_SingleBuyPrice = 300000;
-    tradeInputData.m_BuyFee = 10000;
+    tradeInputData.m_StockName = "OMV";
+    tradeInputData.m_StockAmount = 9900000000;
+    tradeInputData.m_SingleBuyPrice = 6176000000;
+    tradeInputData.m_BuyFee = 2245000000;
     tradeInputData.m_BuyDate = std::chrono::year(2026) / 6 / 2;
     
     // 2. Objekt erstellen (Execution)
@@ -28,21 +28,21 @@ TEST_CASE("Portfolio - Gewinnberechnung", "[Portfolio]") {
     SECTION("Closed trade, there must be a win > 0")
     {
         auto& trade = portfolio.getTradesMutable();
-        trade[0].setSellFee(40000);
-        trade[0].setSingleSellPrice(320000);
-        trade[0].setTax(40000);
+        trade[0].setSellFee(1956000000);
+        trade[0].setSingleSellPrice(6380000000);
+        trade[0].setTax(5560000000);
         trade[0].setSellDate(std::chrono::year(2026) / 6 / 5);
         trade[0].setTradeClosed(true);
-        REQUIRE(portfolio.calculateTotalNetWin() == 110000);
+        REQUIRE(portfolio.calculateTotalNetWin() == 10435000000);
     }
     SECTION("Closed trade, there must be a win < 0")
     {
         auto& trade = portfolio.getTradesMutable();
-        trade[0].setSellFee(40000);
-        trade[0].setSingleSellPrice(220000);
-        trade[0].setTax(40000);
+        trade[0].setSellFee(1956000000);
+        trade[0].setSingleSellPrice(6100000000);
+        trade[0].setTax(0000000000);
         trade[0].setSellDate(std::chrono::year(2026) / 6 / 5);
         trade[0].setTradeClosed(true);
-        REQUIRE(portfolio.calculateTotalNetWin() == -890000);
+        REQUIRE(portfolio.calculateTotalNetWin() == -11725000000);
     }
 }
