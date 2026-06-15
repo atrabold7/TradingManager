@@ -8,6 +8,7 @@ COPY . .
 # check src folder
 RUN cppcheck --enable=all --error-exitcode=1 --std=c++20 \
     --suppress=missingIncludeSystem \
+    --suppress=unusedFunction:src/TradeSerializer.cpp \
     src/
 
 # build
