@@ -25,35 +25,45 @@ void TradePrinter::printTrade(int StockId, const Trade &trade)
     else {
             SellDate = "";
         }
-        
+    
     std::cout << std::left << "[" << StockId << std::setw(4 - std::to_string(StockId).length()) << "]"
-        << std::setw(15) << trade.getStockName()
-        << std::fixed << std::setprecision(8) << std::setw(15) << Trading::longlongToDisplay(trade.getStockAmount())
+        << std::setw(13) << trade.getStockName()
+        << std::right << std::fixed << std::setprecision(8) << std::setw(15) << Trading::longlongToDisplay(trade.getStockAmount())
         << std::setprecision(2) << std::setw(15) << Trading::longlongToDisplay(trade.getSingleBuyPrice())
         << std::setw(15) << trade.getBuyDate()
         << std::setw(15) << Trading::longlongToDisplay(trade.getSingleSellPrice())
         << std::setw(15) << SellDate
         << std::setw(15) << holdTimePrint
-        << std::setw(15) << (trade.getTradeClosed() ? "Closed" : "Open")
+        << std::setw(12) << (trade.getTradeClosed() ? "Closed" : "Open")
         << std::endl;
     }
 
 void TradePrinter::printAll(const Portfolio& m_portfolio) {
     int StockId = 0;
     
+    
+    auto vect = m_portfolio.getTrades();
+    std::sort(vect.begin(),vect.end(),
+        [](const Trade& a, const Trade& b)
+        {
+            return a.getStockName() < b.getStockName();
+        });
+    
+    
+    
     std::cout << std::left << std::setw(5) << "Id"
-        << std::left << std::setw(15) << "Stock Name"
-        << std::setw(15) << "Qty"
-        << std::setw(15) << "Buy price"
-        << std::setw(15) << "Buy date"
-        << std::setw(15) << "Sell price"
-        << std::setw(15) << "SellDate"
+        << std::left << std::setw(25) << "Stock Name"
+        << std::setw(9) << "Qty"
+        << std::setw(16) << "Buy price"
+        << std::setw(13) << "Buy date"
+        << std::setw(16) << "Sell price"
+        << std::setw(15) << "Sell Date"
         << std::setw(15) << "Hold time"
         << std::setw(15) << "Status"
         << std::endl;
 
-    for (const auto& trade : m_portfolio.getTrades()) {
-        std::cout << "====================================================================================================================" << std::endl;
+    for (const auto& trade : vect) {
+        std::cout << "========================================================================================================================" << std::endl;
         TradePrinter::printTrade(++StockId, trade);
         }
     }
