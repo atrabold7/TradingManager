@@ -9,9 +9,9 @@ class ITradeRepository;
 struct TradeInputData
 {
     std::string m_StockName;
-    float m_StockAmount = 0.0f;
-    float m_SingleBuyPrice = 0.0f;
-    float m_BuyFee = 0.0f;
+    long long m_StockAmount = 0;
+    long long m_SingleBuyPrice = 0;
+    long long m_BuyFee = 0;
     std::chrono::year_month_day m_BuyDate;
     bool m_TradeClosed = false;
 };
