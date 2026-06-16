@@ -54,7 +54,7 @@ public:
             return holtTime1 < holtTime2;
         });
         SortRegistry::registerStrategy("Status", [](const Trade &trade1, const Trade &trade2)
-            {return trade1.getTradeClosed() > trade2.getTradeClosed();});
+            {return trade1.getTradeClosed() && !trade2.getTradeClosed();});
     }
     void run();
     void getTradeInputData();
