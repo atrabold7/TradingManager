@@ -30,7 +30,7 @@ public:
     {
         SortRegistry::registerStrategy("Asset Name", [](const Trade &trade1, const Trade &trade2)
             {return trade1.getStockName() < trade2.getStockName();});
-        SortRegistry::registerStrategy("Qty", [](const Trade &trade1, const Trade &trade2)
+        SortRegistry::registerStrategy("Quantity", [](const Trade &trade1, const Trade &trade2)
             {return trade1.getStockAmount() < trade2.getStockAmount();});
         SortRegistry::registerStrategy("Buy Date", [](const Trade &trade1, const Trade &trade2)
             {return trade1.getBuyDate() < trade2.getBuyDate();});
