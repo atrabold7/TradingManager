@@ -8,8 +8,7 @@
 void TradePrinter::printTrade(int StockId, const Trade &trade)
     {
     std::string SellDate;
-    std::chrono::days diffDays;
-    std::string holdTimePrint = "";
+    std::string holdTimePrint;
     
     if (trade.getSellDate().has_value()) {
         std::stringstream ss;
@@ -18,15 +17,16 @@ void TradePrinter::printTrade(int StockId, const Trade &trade)
         
         std::chrono::sys_days sysBuyDate{trade.getBuyDate()};
         std::chrono::sys_days sysSellDate{trade.getSellDate().value()};
-        diffDays = sysSellDate - sysBuyDate;
+        std::chrono::days diffDays = sysSellDate - sysBuyDate;
         
         holdTimePrint = std::to_string(diffDays.count());
         }
     else {
             SellDate = "";
+        holdTimePrint = "";
         }
     
-    std::cout << std::left << "[" << StockId << std::setw(4 - std::to_string(StockId).length()) << "]"
+    std::cout << std::left << "[" << StockId << std::setw(4 - static_cast<int>(std::to_string(StockId).length())) << "]"
         << std::setw(13) << trade.getStockName()
         << std::right << std::fixed << std::setprecision(8) << std::setw(15) << Trading::longlongToDisplay(trade.getStockAmount())
         << std::setprecision(2) << std::setw(15) << Trading::longlongToDisplay(trade.getSingleBuyPrice())
@@ -35,21 +35,11 @@ void TradePrinter::printTrade(int StockId, const Trade &trade)
         << std::setw(15) << SellDate
         << std::setw(15) << holdTimePrint
         << std::setw(12) << (trade.getTradeClosed() ? "Closed" : "Open")
-        << std::endl;
+        << "\n";
     }
 
 void TradePrinter::printAll(const Portfolio& m_portfolio) {
     int StockId = 0;
-    
-    
-    auto vect = m_portfolio.getTrades();
-    std::sort(vect.begin(),vect.end(),
-        [](const Trade& a, const Trade& b)
-        {
-            return a.getStockName() < b.getStockName();
-        });
-    
-    
     
     std::cout << std::left << std::setw(5) << "Id"
         << std::left << std::setw(25) << "Stock Name"
@@ -60,10 +50,10 @@ void TradePrinter::printAll(const Portfolio& m_portfolio) {
         << std::setw(15) << "Sell Date"
         << std::setw(15) << "Hold time"
         << std::setw(15) << "Status"
-        << std::endl;
+        << "\n";
 
-    for (const auto& trade : vect) {
-        std::cout << "========================================================================================================================" << std::endl;
+    for (const auto& trade : m_portfolio.getTrades()) {
+        std::cout << "========================================================================================================================" << "\n";
         TradePrinter::printTrade(++StockId, trade);
         }
     }

@@ -3,7 +3,7 @@
 #include "TradeInputHandler.h"
 #include "TradingConstants.h"
 
-long long Portfolio::calculateTotalNetWin() {
+long long Portfolio::calculateTotalNetWin() const {
     long long totalNetWin {0};
 
     for (const Trade& trade : m_trades) {
@@ -19,7 +19,7 @@ long long Portfolio::calculateTotalNetWin() {
         }
     return totalNetWin;
     }
-long long Portfolio::calculateTotalGrossWin() {
+long long Portfolio::calculateTotalGrossWin() const {
     long long totalGrossWin {0};
 
     for (const Trade& trade : m_trades) {
@@ -62,7 +62,7 @@ long long Portfolio::calculateTotalTax() {
     
     return totalTax;
 }
-void Portfolio::addTrade(TradeInputData tradeInputData)
+void Portfolio::addTrade(const TradeInputData &tradeInputData)
 {
     m_trades.emplace_back(
         tradeInputData.m_StockName,

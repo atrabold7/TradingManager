@@ -7,65 +7,96 @@
 
 #include "ITradeRepository.h"
 
-void TradeInputHandler::run() {
+void TradeInputHandler::run()
+{
     bool isRunning = true;
-    
-    while (isRunning) {
+
+    while (isRunning)
+    {
         clearConsole();
-        std::cout << "[1] Create trades" << std::endl;
-        std::cout << "[2] Show trades" << std::endl;
-        std::cout << "[3] Show calculation" << std::endl;
-        std::cout << "[4] Load data" << std::endl;
-        std::cout << "[5] Save data" << std::endl;
-        std::cout << "[6] End" << std::endl;
-        
-        int inputMenuIndex = readSaveInteger(6);
+        std::cout << "[1] Create trades\n";
+        std::cout << "[2] Show trades\n";
+        std::cout << "[3] Show calculation\n";
+        std::cout << "[4] Load data\n";
+        std::cout << "[5] Save data\n";
+        std::cout << "[6] Sort database\n";
+        std::cout << "[7] End\n";
+
+        int inputMenuIndex = readSaveInteger(7);
         if (inputMenuIndex == 0)
             continue;
-        
+
         clearConsole();
         switch (inputMenuIndex)
         {
-            case 1:
+        case 1:
             getTradeInputData();
             break;
-            
-            case 2:
+
+        case 2:
             changeDataInTrade();
             break;
-            
-            case 3:
-                {
-                    std::string input;
-                    long long totalGrossWin = m_portfolio.calculateTotalGrossWin();
-                    long long totalNetWin = m_portfolio.calculateTotalNetWin();
-                    long long totalFee = m_portfolio.calculateTotalFee();
-                    long long totalTax = m_portfolio.calculateTotalTax();
-                    
-                    
-                    displayPerformanceReport(totalGrossWin, totalFee, totalTax, totalNetWin);
-                    std::cout << std::endl << "Press enter to continue";
-                    std::getline(std::cin, input);
-                    break;
-                }
-            case 4:
+
+        case 3:
+            {
+                std::string input;
+                long long totalGrossWin = m_portfolio.calculateTotalGrossWin();
+                long long totalNetWin = m_portfolio.calculateTotalNetWin();
+                long long totalFee = m_portfolio.calculateTotalFee();
+                long long totalTax = m_portfolio.calculateTotalTax();
+
+
+                displayPerformanceReport(totalGrossWin, totalFee, totalTax, totalNetWin);
+                std::cout << "\nPress enter to continue";
+                std::getline(std::cin, input);
+                break;
+            }
+        case 4:
             m_repository.readTrades(m_portfolio.getTradesMutable());
             break;
-            
+
         case 5:
             m_repository.saveData(m_portfolio.getTrades());
             break;
-            
-            case 6:
+
+        case 6:
+            sortAssets();
+            break;
+
+        case 7:
             isRunning = false;
+            break;
+        default:
+            assert(false && "unknown case");
             break;
         }
     }
 }
+
+void TradeInputHandler::sortAssets()
+{
+    int counter {1};
+    auto sortStrategy = SortRegistry::getStrategies();
+    
+    for (const auto& strategy : sortStrategy)
+    {
+        std::cout << "[" << counter++ << "] " << strategy.displayName << "\n";
+    }
+    
+    std::cout << std::endl << "Press valid field for sort field or enter to leave: ";
+
+    int indexField = readSaveInteger(6);
+    if (indexField == 0)
+        return;
+
+    std::sort(m_portfolio.getTradesMutable().begin(), m_portfolio.getTradesMutable().end(),
+        sortStrategy[indexField - 1].comparator);
+}
+
 void TradeInputHandler::getTradeInputData()
 {
     TradeInputData tradeInputData;
-        
+
     if (auto StockName = readString("Set stock name: "))
     {
         tradeInputData.m_StockName = *StockName;
@@ -74,7 +105,7 @@ void TradeInputHandler::getTradeInputData()
     {
         return;
     }
-    
+
     if (auto StockAmount = readLongLong("Set stock amount: "))
     {
         tradeInputData.m_StockAmount = *StockAmount;
@@ -83,7 +114,7 @@ void TradeInputHandler::getTradeInputData()
     {
         return;
     }
-    
+
     if (auto SingleBuyPrice = readLongLong("Set single buy price: "))
     {
         tradeInputData.m_SingleBuyPrice = *SingleBuyPrice;
@@ -92,7 +123,7 @@ void TradeInputHandler::getTradeInputData()
     {
         return;
     }
-    
+
     if (auto BuyFee = readLongLong("Set fee: "))
     {
         tradeInputData.m_BuyFee = *BuyFee;
@@ -101,7 +132,7 @@ void TradeInputHandler::getTradeInputData()
     {
         return;
     }
-    
+
     if (auto BuyDate = readDate("Set buy date YYYY-MM-DD: "))
     {
         tradeInputData.m_BuyDate = *BuyDate;
@@ -110,32 +141,39 @@ void TradeInputHandler::getTradeInputData()
     {
         return;
     }
-    
+
     tradeInputData.m_TradeClosed = false;
-    
+
     m_portfolio.addTrade(tradeInputData);
 }
-void TradeInputHandler::displayPerformanceReport(long long totalGrossWin, long long totalFee, long long totalTax, long long totalNetWin)
+
+void TradeInputHandler::displayPerformanceReport(long long totalGrossWin, long long totalFee, long long totalTax,
+                                                 long long totalNetWin)
 {
-    std::cout << "Total Gross Win : " << std::setw(30 - 18) << std::fixed << std::setprecision(2) << std::right << Trading::longlongToDisplay(totalGrossWin) << std::endl;
-    std::cout << "Total Fee: " << std::setw(30 - 11) << std::fixed << std::setprecision(2) << std::right << Trading::longlongToDisplay(totalFee) << std::endl;
-    std::cout << "Total Tax: " << std::setw(30 - 11) << std::fixed << std::setprecision(2) << std::right << Trading::longlongToDisplay(totalTax) << std::endl;
-    std::cout << "==============================" << std::endl;
-    std::cout << "Total Net Win: " << std::setw(30 - 15) << std::fixed << std::setprecision(2) << std::right << Trading::longlongToDisplay(totalNetWin) << std::endl;
+    std::cout << "Total Gross Win : " << std::setw(30 - 18) << std::fixed << std::setprecision(2) << std::right <<
+        Trading::longlongToDisplay(totalGrossWin) << "\n";
+    std::cout << "Total Fee: " << std::setw(30 - 11) << std::fixed << std::setprecision(2) << std::right <<
+        Trading::longlongToDisplay(totalFee) << "\n";
+    std::cout << "Total Tax: " << std::setw(30 - 11) << std::fixed << std::setprecision(2) << std::right <<
+        Trading::longlongToDisplay(totalTax) << "\n";
+    std::cout << "==============================" << "\n";
+    std::cout << "Total Net Win: " << std::setw(30 - 15) << std::fixed << std::setprecision(2) << std::right <<
+        Trading::longlongToDisplay(totalNetWin) << "\n";
 }
-std::optional<long long> TradeInputHandler::readLongLong(const std::string &command)
+
+std::optional<long long> TradeInputHandler::readLongLong(const std::string& command)
 {
     std::string inputData;
     std::cout << command;
-    
+
     while (true)
     {
         std::getline(std::cin, inputData);
 
         try
-        {            
+        {
             long long Data = static_cast<long long>(std::round(std::stod(inputData) * Trading::SCALE));
-            
+
             if (Data <= 0)
             {
                 std::cout << "Only numbers > 0 are valid" << std::endl;
@@ -158,11 +196,12 @@ std::optional<long long> TradeInputHandler::readLongLong(const std::string &comm
         }
     }
 }
-std::optional<std::string> TradeInputHandler::readString(const std::string &command)
+
+std::optional<std::string> TradeInputHandler::readString(const std::string& command)
 {
     std::string inputData;
     std::cout << command;
-    
+
     while (true)
     {
         std::getline(std::cin, inputData);
@@ -173,21 +212,25 @@ std::optional<std::string> TradeInputHandler::readString(const std::string &comm
         else return inputData;
     }
 }
-std::optional<std::chrono::year_month_day> TradeInputHandler::readDate(const std::string &command)
+
+std::optional<std::chrono::year_month_day> TradeInputHandler::readDate(const std::string& command)
 {
     std::string inputString;
     std::chrono::year_month_day inputYear;
-    
+
     while (true)
     {
         std::cout << command;
-        
+
         std::getline(std::cin, inputString);
         std::istringstream ss{inputString};
 
-        if (ss >> std::chrono::parse("%F", inputYear) && inputYear.ok()) {
+        if (ss >> std::chrono::parse("%F", inputYear) && inputYear.ok())
+        {
             return inputYear;
-        } else {
+        }
+        else
+        {
             if (inputString.empty())
             {
                 return std::nullopt;
@@ -199,32 +242,33 @@ std::optional<std::chrono::year_month_day> TradeInputHandler::readDate(const std
         }
     }
 }
+
 void TradeInputHandler::changeDataInTrade()
 {
     TradeData tradeData;
-    
+
     TradePrinter::printAll(m_portfolio);
     std::cout << std::endl << "Press valid trade number to change or press enter to leave: ";
-    
+
     int indexTrade = readSaveInteger(m_portfolio.getTrades().size());
     if (indexTrade == 0)
         return;
-    
+
     tradeData.sellFee = m_portfolio.getTrades()[indexTrade - 1].getSellFee();
     tradeData.tax = m_portfolio.getTrades()[indexTrade - 1].getTax();
     tradeData.singleSellPrice = m_portfolio.getTrades()[indexTrade - 1].getSingleSellPrice();
     tradeData.sellDate = m_portfolio.getTrades()[indexTrade - 1].getSellDate();
-    
+
     std::cout << std::endl << "[1] Sell Fee";
     std::cout << std::endl << "[2] Single Sell Price";
     std::cout << std::endl << "[3] Sell Date";
     std::cout << std::endl << "[4] Tax";
     std::cout << std::endl << "Press valid field number to change or enter to leave: ";
-      
+
     int indexField = readSaveInteger(4);
     if (indexField == 0)
         return;
-    
+
     switch (indexField)
     {
     case 1:
@@ -252,7 +296,7 @@ void TradeInputHandler::changeDataInTrade()
             tradeData.sellDate = readDate("Set sell date YYYY-MM-DD or enter to leave: ");
             if (tradeData.sellDate.has_value())
             {
-                std::chrono::sys_days sysSellDate {tradeData.sellDate.value()};
+                std::chrono::sys_days sysSellDate{tradeData.sellDate.value()};
             }
             else
             {
@@ -271,10 +315,10 @@ void TradeInputHandler::changeDataInTrade()
         }
         break;
     }
-            
-    m_portfolio.changeTrade(m_portfolio.getTradesMutable()[indexTrade - 1], tradeData);                
-    
+
+    m_portfolio.changeTrade(m_portfolio.getTradesMutable()[indexTrade - 1], tradeData);
 }
+
 int TradeInputHandler::readSaveInteger(int maxIndex)
 {
     std::string input;
@@ -283,7 +327,7 @@ int TradeInputHandler::readSaveInteger(int maxIndex)
     {
         size_t stopPos;
         int index = std::stoi(input, &stopPos);
-            
+
         if (stopPos == input.length() && index > 0 && index <= maxIndex)
         {
             return index;
@@ -299,7 +343,9 @@ int TradeInputHandler::readSaveInteger(int maxIndex)
     }
     return 0;
 }
-void TradeInputHandler::clearConsole() {
+
+void TradeInputHandler::clearConsole()
+{
 #ifdef _WIN32
     std::system("cls");
 #else
